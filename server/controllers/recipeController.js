@@ -35,6 +35,18 @@ const deleteRecipe = async (req,res) => {
     }
 }
 
+const getRecipes = async (req, res) => {
+    try {
+        const recipes = await Recipe.find();
+        if( !recipes ) {
+            return res.status(404).json({ message: "Fail to get recipes" });
+        } 
+        res.status(200).send(recipes);
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
 const getRecipeById = async (req,res) => {
     const recipe = await Recipe.findById(req.params.id)
     try {
@@ -50,5 +62,6 @@ const getRecipeById = async (req,res) => {
 module.exports = {
     createRecipe,
     deleteRecipe,
+    getRecipes,
     getRecipeById, 
 }

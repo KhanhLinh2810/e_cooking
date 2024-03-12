@@ -2,12 +2,13 @@ const User = require("../models/User");
 
 
 const createUser = async (req, res) => {
+    const { username, password, firstName, lastName, email} = req.body;
     const user = new User({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        username: username,
+        password: password,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
         token: []
     });
 
@@ -17,6 +18,7 @@ const createUser = async (req, res) => {
             return res.status(400).json({message: 'All fields are required!'})
         };
         await user.save();
+        console.log(user);
         res.status(201).send(user);
     } catch (error) {
         console.log('createUser have error: ', error);
@@ -72,9 +74,20 @@ const getUserById = async (req, res) => {
     }
 }
 
+const getUser = async (req, res) => {
+    try {
+        const users = await User.find()
+        res.status(200).send(users)
+
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
 module.exports = {
     createUser,
     updateUser,
     deleteUser,
-    getUserById
+    getUserById, 
+    getUser
 }

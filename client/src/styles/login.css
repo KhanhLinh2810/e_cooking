@@ -1,0 +1,110 @@
+* {
+    font-family: 'Baskerville, Baskerville Old Face, Garamond, Times New Roman, serif';
+
+}
+
+.container_login {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../assets/img/background_login.png");
+    background-blend-mode: color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 65px 0;
+    background-size: cover;
+}
+
+#e_cooking {
+    color: rgb(128, 16, 22);
+    font-family: Georgia, serif;
+    font-size: 50px;
+    padding: 20px;
+}
+
+.login {
+    display: block;
+    padding: 40px 40px 30px 40px;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.label {
+    color: black;
+    font-size: 16px;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 50px;
+}
+
+.input {
+    display: block;
+    width: 300px;
+    padding: 15px;
+    border: 0;
+    border-radius: 5px;
+    background-color: D9D9D9;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 10px 0 rgba(128, 16, 22, 0.2);
+}
+
+
+.input ::-webkit-input-placeholder {
+    color: #cacfd4;
+}
+
+.submit {
+    width: 300px;
+    padding: 15px;
+    border: 0;
+    border-radius: 5px;
+    background-color: rgb(128, 16, 22);
+    outline: none;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 10px 0 rgba(128, 16, 22, 0.5);
+    margin: 15px 0;
+    transition: background-color scale 1s ease-in;
+}
+
+.submit:hover {
+    scale: 1.1;
+    font-weight: 700;
+    font-size: larger;
+    background-color: rgb(48, 204, 21);
+    opacity: 0.8;
+}
+
+div>p {
+    text-align: end;
+    margin-right: 10px;
+    margin-bottom: 0px;
+}
+
+.account {
+    text-align: center;
+    font-size: 10px;
+    color: #999;
+
+}
+
+.link {
+    padding-left: 1rem;
+    color: blue;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+
+.link:active {
+    color: rgb(48, 204, 21);
+    font-weight: 800;
+    text-decoration: none;
+}
