@@ -2,6 +2,7 @@ const {
     createIngre,
     updateIngre,
     deleteIngre,
+    getIngres,
     getIngreById, 
     getIngreByRecipe
 } = require("../controllers/ingredientController")
@@ -18,6 +19,7 @@ router.patch('/ingredient/:id', updateIngre);
 router.delete('/ingredient/:id', deleteIngre);
 
 //GET 
+router.get('/ingredient', getIngres);
 router.get('/ingredient/:id', getIngreById);
 router.get('/ingredient/recipe/:id', getIngreByRecipe);
     

@@ -5,6 +5,7 @@ const { readdirSync } = require('fs');
 const app = express()
 const userRouter = require('./routers/user');
 const recipeRouter = require('./routers/recipe');
+const ingredientRouter = require('./routers/ingredient');
 
 require('dotenv').config()
 
@@ -24,6 +25,7 @@ const server = () => {
     })
     app.use('/api', userRouter);
     app.use('/api', recipeRouter);
+    app.use('/api', ingredientRouter);
 }
 
 server()

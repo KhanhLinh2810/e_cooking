@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import "./recipe.css"
+import "./Recipe.css"
 
 const Recipe = ({username, recipeName, recipeImage, likes, timestamp}) => {
     return (

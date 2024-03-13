@@ -4,6 +4,7 @@ const IngredientSchema = new mongoose.Schema ({
     keyname: {
         type: String,
         required: true,
+        unique: true,
     },
     othername: {
         type: String,

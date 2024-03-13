@@ -4,7 +4,7 @@ import Sidenav from "../components/navigation/Sidenav";
 import Timeline from "../components/timeline/Timeline";
 
 
-function Home() {
+const Home = () => {
     return (
         <div className='homepage'>
             <div className="homepage_nav">

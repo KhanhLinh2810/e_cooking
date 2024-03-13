@@ -1,0 +1,12 @@
+.createpage {
+    display: flex;
+    flex-direction: row;
+}
+
+.createpage_nav {
+    flex: 0.2;
+}
+
+.createpage_create {
+    flex: 0.8;
+}

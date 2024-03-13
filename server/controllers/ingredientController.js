@@ -57,6 +57,15 @@ const deleteIngre = async (req, res) => {
     }
 }
 
+const getIngres = async (req, res) => {
+    try {
+        const ingres = await Ingredient.find();
+        res.status(200).send(ingres)
+    } catch (err) {
+        res.status(500).send(error);
+    }
+}
+
 const getIngreById = async (req, res) => {
     try {
       const ingre = await Ingredient.findById(req.params.id);
@@ -87,6 +96,7 @@ module.exports = {
     createIngre,
     updateIngre,
     deleteIngre,
+    getIngres,
     getIngreById, 
     getIngreByRecipe
 }

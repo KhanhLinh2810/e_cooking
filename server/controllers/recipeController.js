@@ -3,6 +3,7 @@ const RecipeIngre = require("../models/RecipeIngre");
 
 const createRecipe = async (req,res) => {
     const { title, content, timetocook, image, ingres } = req.body;
+    console.log(req.body)
     try {
         const recipe = new Recipe({ title, content, timetocook, image });
         await recipe.save()

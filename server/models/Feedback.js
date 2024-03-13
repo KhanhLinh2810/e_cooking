@@ -16,6 +16,6 @@ const feedbackSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "Recipe"
     }
-})
+}, { timestamps: true });
 
 module.exports = mongoose.model("Feedback", feedbackSchema)
