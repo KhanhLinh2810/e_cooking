@@ -1,22 +1,41 @@
 const Recipe = require("../models/Recipe");
 const RecipeIngre = require("../models/RecipeIngre");
+const RecipCuisine = require("../models/RecipeCuisine");
+const { default: mongoose } = require("mongoose");
+const bodyParser = require('body-parser');
 
 const createRecipe = async (req,res) => {
-    const { title, content, timetocook, image, ingres } = req.body;
-    console.log(req.body)
+    const { title, content, timetocook, ingres, cuisines } = req.body;
+    const image = req.file.filename;
+    const ingredients = JSON.parse(ingres);
+    const parse_cuisines = JSON.parse(cuisines);
+
     try {
-        const recipe = new Recipe({ title, content, timetocook, image });
+        const recipe = new Recipe({ title, content, timetocook, image});
         await recipe.save()
 
-        for( const ingreId of ingres ) {
+        for( const ingreId of ingredients ) {
             const recipeIngre = new RecipeIngre({
                 recipe: recipe._id,
-                ingre: ingreId
+                ingre: ingreId,
             })
             await recipeIngre.save()
         }
+
+        for( const cuisineId of parse_cuisines ) {
+            const recipeCuisine = new RecipeCuisine({
+                recipe: recipe._id,
+                cuisine: cuisineId,
+            })
+            await recipeCuisine.save()
+        }
+
+
+        
+        console.log(recipe)
         return res.status(201).json({ message: 'Recipe are created!'})
     } catch (error) {
+        console.log(error);
         res.status(500).send(error)
     }
 }
@@ -39,6 +58,7 @@ const deleteRecipe = async (req,res) => {
 const getRecipes = async (req, res) => {
     try {
         const recipes = await Recipe.find();
+        console.log(recipes)
         if( !recipes ) {
             return res.status(404).json({ message: "Fail to get recipes" });
         } 

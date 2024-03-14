@@ -9,8 +9,24 @@ const {
 
 const router = require('express').Router()
 
+const multer = require('multer')
+const path = require('path')
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
+    }
+})
+
+const upload = multer({
+    storage: storage
+})
+
 // CREATE
-router.post('/ingredient', createIngre);
+router.post('/ingredient', upload.single('image') , createIngre);
     
 // UPDATE
 router.patch('/ingredient/:id', updateIngre);

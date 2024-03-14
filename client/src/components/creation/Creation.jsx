@@ -6,7 +6,7 @@ const Creation = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [time, setTime] = useState('');
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState({});
     const [ingredients, setIngredients] = useState([]);
     const [allIngres, setAllIngres] = useState([{}]);
 
@@ -26,16 +26,17 @@ const Creation = () => {
         }
     };
 
-    const createRecipe = async ( title, content, time, image, ingredients ) => {
-        console.log(ingredients)
+    const createRecipe = async ( title, content, time, image, ingredients ) => {        
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('timetocook', time);
+        formData.append('image', image);
+        formData.append('ingres', JSON.stringify(ingredients)); // Đóng gói ingredients thành chuỗi JSON
+        
         try {
-            await axios.post("http://localhost:5000/api/recipe", {
-                title: title, 
-                content: content, 
-                timetocook: time, 
-                image: image, 
-                ingres: ingredients,
-            }).then( res => {
+            await axios.post("http://localhost:5000/api/recipe", formData)
+            .then( res => {
                 navigate('/');
             }).catch( err => {
                 alert("Failed to create new recipe");
@@ -65,12 +66,6 @@ const Creation = () => {
         createRecipe(title, content, time, image, ingredients);
     };
 
-    const handleUploadImage = async (e) => {
-        const image = e.target.image;
-        const base64 = await convertToBase64(image);
-        setImage({ ...image, base64 });
-    }
-
     return (
         <div className="creation">
             <h2>Cooking will become easy thanks to you</h2>
@@ -92,11 +87,10 @@ const Creation = () => {
                     <label htmlFor='content'>
                         <b>Recipe's direction: </b>
                     </label>
-                    <input
+                    <textarea
                         id='content'
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        type="text"
                         placeholder="Enter direction for recipe"
                         className="recipe_content"
                     />
@@ -119,11 +113,10 @@ const Creation = () => {
                         <b>Recipe's image: </b>
                     </label>
                     <input
-                        id='image'
                         type='file'
                         lable="Image"
-                        name='myFile'
-                        onChange={(e) => handleUploadImage(e)}
+                        id='image'
+                        onChange={(e) => setImage(e.target.files[0])}
                         accept='.png, .jpg, .jpge'
                     />
                 </div>
@@ -152,16 +145,3 @@ const Creation = () => {
 }
 
 export default Creation;
-
-const convertToBase64 = (image) => {
-    return new Promise((resolve, reject) => {
-        const imageReader = new FileReader();
-        imageReader.readAsDataURL(image);
-        imageReader.onload = () => {
-            resolve(imageReader.result)
-        };
-        imageReader.onerror = (err) => {
-            reject(err)
-        }
-    })
-}

@@ -9,8 +9,6 @@ const Timeline = () => {
 
     useEffect(() => {
         fetchRecipes();
-        console.log('1');
-        console.log(recipes);
     }, [])
     
     const fetchRecipes = async() => {
@@ -18,8 +16,7 @@ const Timeline = () => {
             .then(response => {
                 const recipes = response.data;
                 setRecipes(recipes);
-                console.log(2);
-                // console.log(recipes);
+                console.log(recipes)
             })
             .catch(error => {
                 console.error('Failed to fetch recipe data: ', error)
@@ -34,7 +31,7 @@ const Timeline = () => {
                         <Recipe 
                             // username={recipe.createdBy.username} 
                             recipeName={recipe.title} 
-                            recipeImage={recipe.image} 
+                            recipeImage= {`http://localhost:5000/images/${recipe.image}`}
                             likes={recipe.likes} 
                             timestamp={recipe.createdAt} 
                         />

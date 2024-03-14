@@ -1,19 +1,19 @@
 import React from 'react'
 import '../styles/create.css'
 import Sidenav from '../components/navigation/Sidenav';
-import CreateIngre from '../components/creation/CreationIngre';
+import CreateIngreCuisine from '../components/creation/Creation_Ingre_Cuisine';
 
-const CreateIngrePage = () => {
+const CreateIngreCuisinePage = () => {
     return (
         <div className="createpage">
             <div className="createpage_nav">
                 <Sidenav />
             </div>
             <div className="createpage_create">
-                <CreateIngre />
+                <CreateIngreCuisine />
             </div>
         </div>
     );
 }
 
-export default CreateIngrePage;
+export default CreateIngreCuisinePage;

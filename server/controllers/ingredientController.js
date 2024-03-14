@@ -1,10 +1,10 @@
 const Ingredient = require("../models/Ingredient");
 const Recipe = require("../models/Recipe");
 const RecipeIngre = require("../models/RecipeIngre");
-const RecipIngre = require("../models/RecipeIngre")
 
 const createIngre = async (req, res) => {
-    const { keyname, othername, image, description } = req.body;
+    const { keyname, othername, description } = req.body;
+    const image = req.file.filename;
 
     try {
         if(!keyname) {

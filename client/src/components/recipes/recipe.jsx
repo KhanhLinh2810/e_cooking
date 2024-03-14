@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "./Recipe.css"
 
 const Recipe = ({username, recipeName, recipeImage, likes, timestamp}) => {
+    console.log(recipeImage)
     return (
         <div className="recipe">
             <div className="recipe_header">
