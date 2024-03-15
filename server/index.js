@@ -4,6 +4,7 @@ const { db } = require('./db/db');
 const { readdirSync } = require('fs');
 const app = express()
 const userRouter = require('./routers/user');
+const loginRouter = require('./routers/login');
 const recipeRouter = require('./routers/recipe');
 const cuisineRouter = require('./routers/cuisine');
 const ingredientRouter = require('./routers/ingredient');
@@ -30,6 +31,7 @@ const server = () => {
         console.log('listening to port:', PORT)
     })
     app.use('/api', userRouter);
+    app.use('/api', loginRouter);
     app.use('/api', recipeRouter);
     app.use('/api', cuisineRouter);
     app.use('/api', ingredientRouter);

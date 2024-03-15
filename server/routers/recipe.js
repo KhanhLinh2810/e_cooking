@@ -3,8 +3,10 @@ const {
     deleteRecipe,
     getRecipes,
     getRecipeById,
+    getRecipesByCuisinesAndIngres,
 } = require("../controllers/recipeController")
-const auth = require("../middlewares/auth")
+
+const { auth } = require("../middlewares/auth")
 
 const router = require('express').Router()
 const multer = require('multer')
@@ -35,6 +37,7 @@ router.delete('/recipe/:id', deleteRecipe);
 //GET 
 router.get('/recipes', getRecipes);
 router.get('/recipe/:id', getRecipeById);
+router.get('/recipesBy/cuisine/ingre', getRecipesByCuisinesAndIngres)
     
     
 module.exports = router;

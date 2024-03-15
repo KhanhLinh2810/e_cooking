@@ -1,6 +1,6 @@
 const Recipe = require("../models/Recipe");
 const RecipeIngre = require("../models/RecipeIngre");
-const RecipCuisine = require("../models/RecipeCuisine");
+const RecipeCuisine = require("../models/RecipeCuisine");
 const { default: mongoose } = require("mongoose");
 const bodyParser = require('body-parser');
 
@@ -11,7 +11,7 @@ const createRecipe = async (req,res) => {
     const parse_cuisines = JSON.parse(cuisines);
 
     try {
-        const recipe = new Recipe({ title, content, timetocook, image, parse_cuisines});
+        const recipe = new Recipe({ title, content, timetocook, image });
         await recipe.save()
 
         for( const ingreId of ingredients ) {
@@ -76,9 +76,28 @@ const getRecipeById = async (req,res) => {
     }
 }
 
+const getRecipesByCuisinesAndIngres = async (req, res) => {
+    try {
+        const { cuisines, ingres } = req.body;
+        // Query recipes matching the specified cuisineIds and ingreIds
+        const recipes = await Recipe.find({
+            $and: [
+                { cuisines: { $in: cuisines } },
+                { ingredients: { $in: ingres } }
+            ]
+        });
+
+        return res.status(200).json({ recipes });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+};
+
 module.exports = {
     createRecipe,
     deleteRecipe,
     getRecipes,
     getRecipeById, 
+    getRecipesByCuisinesAndIngres,
 }
