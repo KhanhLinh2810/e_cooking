@@ -1,21 +1,28 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Creation = () => {
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [time, setTime] = useState('');
     const [image, setImage] = useState({});
-    const [ingredients, setIngredients] = useState([]);
-    const [allIngres, setAllIngres] = useState([{}]);
 
-    const navigate = useNavigate();
+    const [selectIngres, setSelectIngres] = useState([]);
+    const [allIngres, setAllIngres] = useState([]);
+    const [searchIngres, setSearchIngres] = useState([]);
+
+    const [selectCuisines, setSelectCuisines] = useState([]);
+    const [allCuisine, setAllCuisine] = useState([]);
+    const [searchCuisines, setSearchCuisines] = useState([]);
 
     useEffect(() => {
         fetchIngres();
+        fetchCuisines();
     }, []);
-
+//INGREDIENT
     const fetchIngres = async () => {
         try {
             const response = await axios.get("http://localhost:5000/api/ingredient");
@@ -26,17 +33,67 @@ const Creation = () => {
         }
     };
 
-    const createRecipe = async ( title, content, time, image, ingredients ) => {        
+    const handleSearchIngres = (e) => {
+        setSearchIngres(allIngres.filter(ingre => ingre.keyname.toLowerCase().includes(e.target.value)));
+    }
+
+    //Save selectIngrs 
+    const handleIngres = (e) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setSelectIngres((prevIngres) => [...prevIngres, value]);
+        } else {
+            setSelectIngres((prevIngres) =>
+                prevIngres.filter((ingredient) => ingredient !== value)
+            );
+        }
+    };
+
+//CUISINE
+
+    const fetchCuisines = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/api/cuisine");
+            const allCuisine = response.data;
+            setAllCuisine(allCuisine);
+        } catch (error) {
+            console.log("Failed to fetch cuisine data:", error);
+        }
+    };
+
+    const handleSearchCuisines = (e) => {
+        setSearchCuisines(allCuisine.filter(cuisine => cuisine.cuisinename.toLowerCase().includes(e.target.value)));
+    }
+
+    //Save selectIngrs 
+    const handleCuisines = (e) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setSelectCuisines((prevCuisine) => [...prevCuisine, value]);
+        } else {
+            setSelectCuisines((prevCuisine) =>
+                prevCuisine.filter((cuisine) => cuisine !== value)
+            );
+        }
+    };
+
+    
+    const createRecipe = async ( title, content, time, image, selectIngres, selectCuisines ) => {        
+        const token = Cookies.get('token');
         const formData = new FormData();
         formData.append('title', title);
         formData.append('content', content);
         formData.append('timetocook', time);
         formData.append('image', image);
-        formData.append('ingres', JSON.stringify(ingredients)); // Đóng gói ingredients thành chuỗi JSON
-        
+        formData.append('ingres', JSON.stringify(selectIngres)); // Đóng gói selectIngres thành chuỗi JSON
+        formData.append('cuisines', JSON.stringify(selectCuisines)); // Đóng gói selectCuisines thành chuỗi JSON
+
         try {
-            await axios.post("http://localhost:5000/api/recipe", formData)
-            .then( res => {
+            await axios.post("http://localhost:5000/api/recipe", formData, {
+                headers: {
+                    'Authorization': `bearer: ${token}`
+                }
+            }).then( res => {
                 navigate('/');
             }).catch( err => {
                 alert("Failed to create new recipe");
@@ -45,25 +102,13 @@ const Creation = () => {
         } catch (err) {
             alert("Failed to create new recipe");
             console.log(err);
-        }
-    }
-
-    //Save ingredients 
-    const handleIngres = (e) => {
-        const { value, checked } = e.target;
-        if (checked) {
-            setIngredients((prevIngres) => [...prevIngres, value]);
-        } else {
-            setIngredients((prevIngres) =>
-                prevIngres.filter((ingredient) => ingredient !== value)
-            );
-        }
+        };
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle the form submission logic here
-        createRecipe(title, content, time, image, ingredients);
+        createRecipe(title, content, time, image, selectIngres, selectCuisines);
     };
 
     return (
@@ -121,18 +166,48 @@ const Creation = () => {
                     />
                 </div>
                 <div className="recipe_field">
-                    <label htmlFor='ingredients'>
+                    <label>
                         <b>Ingredients: </b>
                     </label>
-                    {allIngres.map((ingre) => {
+                    <input 
+                        type='text'
+                        onChange={ handleSearchIngres } 
+                        className='from-control'
+                        placeholder='Search ingredients' 
+                    />
+                    {searchIngres.map((ingre) => {
                         return (
                             <div key={ingre._id}>
                                 {ingre.keyname}
                                 <input
                                     value={ingre._id}
                                     type="checkbox"
-                                    checked={ingredients.includes(ingre._id)}
+                                    checked={selectIngres.includes(ingre._id)}
                                     onChange={handleIngres}
+                                />
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className="recipe_field">
+                    <label>
+                        <b>Cuisines: </b>
+                    </label>
+                    <input 
+                        type='text'
+                        onChange={ handleSearchCuisines } 
+                        className='from-control'
+                        placeholder='Search cuisines' 
+                    />
+                    {searchCuisines.map((cuisine) => {
+                        return (
+                            <div key={cuisine._id}>
+                                {cuisine.keyname}
+                                <input
+                                    value={cuisine._id}
+                                    type="checkbox"
+                                    checked={selectCuisines.includes(cuisine._id)}
+                                    onChange={handleCuisines}
                                 />
                             </div>
                         )

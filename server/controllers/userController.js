@@ -26,12 +26,6 @@ const createUser = async (req, res) => {
     }
 }
 
-// const getAuthenticatedUser = async (req, res) => {
-//     try {
-//         const user = await User.findOne({ tokens: { $in: [req.token] } }).po
-//     }
-// }
-
 const updateUser = async (req,res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ['username', 'password', 'email', 'avatar'];

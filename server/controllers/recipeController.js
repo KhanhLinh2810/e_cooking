@@ -11,7 +11,7 @@ const createRecipe = async (req,res) => {
     const parse_cuisines = JSON.parse(cuisines);
 
     try {
-        const recipe = new Recipe({ title, content, timetocook, image});
+        const recipe = new Recipe({ title, content, timetocook, image, parse_cuisines});
         await recipe.save()
 
         for( const ingreId of ingredients ) {
@@ -28,11 +28,7 @@ const createRecipe = async (req,res) => {
                 cuisine: cuisineId,
             })
             await recipeCuisine.save()
-        }
-
-
-        
-        console.log(recipe)
+        }        
         return res.status(201).json({ message: 'Recipe are created!'})
     } catch (error) {
         console.log(error);

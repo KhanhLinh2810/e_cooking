@@ -46,9 +46,7 @@ const Register = (props) => {
                 password: password
             }).then(res => {
                 // login
-                //handleLogin(username, password);
-                navigate('/login');
-
+                handleLogin(username, password);                
             }).catch(err => {
                 alert("Register Failed 456!");
                 console.log(err);

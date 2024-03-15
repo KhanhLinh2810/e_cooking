@@ -62,7 +62,7 @@ const getIngres = async (req, res) => {
         const ingres = await Ingredient.find();
         res.status(200).send(ingres)
     } catch (err) {
-        res.status(500).send(error);
+        res.status(500).send(err);
     }
 }
 

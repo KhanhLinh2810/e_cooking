@@ -27,6 +27,15 @@ const deleteCuisine = async (req,res) => {
     }
 }
 
+const getCuisines = async (req, res) => {
+    try {
+        const cuisines = await Cuisine.find();
+        res.status(200).send(cuisines)
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
+
 // const getCuisineById = async (req, res) => {
 //     try {
 //       const cuisine = await Cuisine.findById(req.params.id);
@@ -42,5 +51,6 @@ const deleteCuisine = async (req,res) => {
 module.exports = {
     createCuisine,
     deleteCuisine,
+    getCuisines,
     // getCuisineById
 }

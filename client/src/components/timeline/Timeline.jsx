@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const Timeline = () => {
     const [recipes, setRecipes] = useState([]);
+    const [search, SetSearch] = useState([]);
 
     useEffect(() => {
         fetchRecipes();
@@ -16,6 +17,7 @@ const Timeline = () => {
             .then(response => {
                 const recipes = response.data;
                 setRecipes(recipes);
+                SetSearch(recipes);
                 console.log(recipes)
             })
             .catch(error => {
@@ -23,11 +25,23 @@ const Timeline = () => {
             })
     }
 
+    const handleSearch = (e) => {
+        SetSearch(recipes.filter(recipe => recipe.title.toLowerCase().includes(e.target.value)))
+    }
+
     return (
         <div className='timeline'>
             <div className="timeline_left">
+                <div className="timeline_search">
+                    <input 
+                        type='text'
+                        onChange={ handleSearch } 
+                        className='from-control'
+                        placeholder='Search recipes' 
+                    />
+                </div>
                 <div className="timeline_recipes">
-                    {recipes.map((recipe) => (
+                    {search.map((recipe) => (
                         <Recipe 
                             // username={recipe.createdBy.username} 
                             recipeName={recipe.title} 

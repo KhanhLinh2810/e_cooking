@@ -4,6 +4,7 @@ const {
     getRecipes,
     getRecipeById,
 } = require("../controllers/recipeController")
+const auth = require("../middlewares/auth")
 
 const router = require('express').Router()
 const multer = require('multer')
@@ -24,7 +25,7 @@ const upload = multer({
 
 
 // CREATE
-router.post('/recipe', upload.single('image') , createRecipe);
+router.post('/recipe', auth, upload.single('image') , createRecipe);
      
 // UPDATE
     
