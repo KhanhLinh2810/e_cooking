@@ -5,6 +5,7 @@
 
 .homepage_nav {
     flex: 0.2;
+    min-width: 180px;
 }
 
 .homepage_timeline {

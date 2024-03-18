@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./Sidenav.css"
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -6,25 +6,47 @@ import axios from 'axios';
 
 function Sidenav() {
     const [open, setOpen] = useState();
+    const [user, setUser] = useState([]);
+    const [loggedIn, setLoggedIn] = useState(false)
     const navigate = useNavigate();
+
+    useEffect( () => {
+        const token = Cookies.get('token')
+        if(token) {
+            setLoggedIn(true);
+            fetchUser(token);
+        }
+    }, [])
+
+    const fetchUser = async (token) => {
+        await axios.get('http://localhost:5000/api/user', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            setUser(res.data)
+            console.log(user)
+        }).catch(err => {
+            console.log(err);
+        })
+        
+    }
 
     const handleLogout = async () => {
         const token = Cookies.get('token');
-        try {
-            axios.post('http://localhost:5000/api/logout', {
-                headers: {
-                    'Authorization': `bearer: ${token}`
-                }
-            }).then(res => {
-                navigate('/login')
-            }).catch( err => {
-                alert("Failed to logout");
-                console.log(err);
-            })
-        } catch (err) {
-            alert("Failed to logout");
+        await axios.post('http://localhost:5000/api/logout', {
+            token: token
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            Cookies.remove('token');
+            navigate('/login');
+        }).catch(err => {
             console.log(err);
-        }
+        })
+        
     }
 
     return (
@@ -57,17 +79,21 @@ function Sidenav() {
                     </svg>
                     <span>Create</span>
                 </button>
-                {/* <button className="sidenav_button">
-                    {image_profie}
-                    <span>Profile</span>
-                </button> */}
+                { loggedIn && (
+                    <button className="sidenav_button">
+                        <div className="sidenav_avatar">{user.avatar}</div>
+                        <span>Profile</span>
+                    </button>
+                )}
             </div>
             <div className="sidenav_more">
                 { open && (
                     <div className="dropupMore">
                         <ul>
                             <li>Setting</li>
-                            <li onClick={ handleLogout }>Logout</li>
+                            { loggedIn &&
+                                <li onClick={ handleLogout }>Logout</li>
+                            }
                         </ul>
                     </div>
                 )}

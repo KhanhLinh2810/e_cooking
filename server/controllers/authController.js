@@ -23,17 +23,18 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        req.user.tokens = req.user.tokens.filter((token) => {
-            return token !== req.token;
-        })
-        await req.user.save();
-        res.json({ message: "logout successful"});
+      req.user.tokens = req.user.tokens.filter((token) => {
+        return token !== req.token;
+      });
+      await req.user.save();
+      res.json({ message: 'Logout successful' });
     } catch (error) {
-        res.status(500).send(err)
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
     }
-}
+};
 
 module.exports = {
     login,
-    logout
+    logout,
 }

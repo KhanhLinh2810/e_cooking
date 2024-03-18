@@ -10,6 +10,7 @@
 
 .timeline_right {
     flex: 0.3;
+    min-width: 200px;
 }
 
 .timeline_search {

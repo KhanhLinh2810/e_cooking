@@ -74,11 +74,10 @@
     transition: background-color scale 1s ease-in;
 }
 
-.submit:hover {
+.submit:hover hover {
     scale: 1.1;
     font-weight: 700;
-    font-size: larger;
-    background-color: rgb(48, 204, 21);
+    font-size: 16px;
     opacity: 0.8;
 }
 

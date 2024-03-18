@@ -11,7 +11,13 @@ const createRecipe = async (req,res) => {
     const parse_cuisines = JSON.parse(cuisines);
 
     try {
-        const recipe = new Recipe({ title, content, timetocook, image });
+        const recipe = new Recipe({ 
+            title, 
+            content, 
+            timetocook, 
+            image,
+            createdBy: req.user._id,
+        });
         await recipe.save()
 
         for( const ingreId of ingredients ) {
@@ -54,7 +60,6 @@ const deleteRecipe = async (req,res) => {
 const getRecipes = async (req, res) => {
     try {
         const recipes = await Recipe.find();
-        console.log(recipes)
         if( !recipes ) {
             return res.status(404).json({ message: "Fail to get recipes" });
         } 
@@ -78,32 +83,36 @@ const getRecipeById = async (req,res) => {
 
 const getRecipesByCuisinesAndIngres = async (req, res) => {
     try {
-        const { cuisines, ingres } = req.body;
-        let recipes;
-        if (cuisines !== undefined && ingres !== undefined) {
-            recipes = await Recipe.find({
-                $and: [
-                    { cuisines: { $in: cuisines } },
-                    { ingredients: { $in: ingres } }
-                ]
-            });
-        } else if (cuisines !== undefined) {
-            recipes = await Recipe.find({
-                $and: [
-                    { cuisines: { $in: cuisines } },
-                ]
-            });
-        } else if (ingres !== undefined) {
-            console.log("hi")
-            recipes = await Recipe.find({
-                $and: [
-                    { ingredients: { $in: ingres } }
-                ]
-            });
-        } else {
-            recipes = await Recipe.find();
+        const { cuisines, ingres } = req.query;
+        const allRecipes = await Recipe.find();
+
+        const recipes = [];
+
+        for( const recipe of allRecipes) {
+            const recipeIngres = await RecipeIngre.find({recipe: recipe}).populate("ingre")
+            const matchingIngres = (!ingres) ? [{}]
+                : recipeIngres.filter((recipeIngre) =>
+                    ingres.includes(recipeIngre.ingre._id.toString())
+                );
+                console.log(matchingIngres)
+            
+            
+            const recipeCuisines = await RecipeCuisine.find({recipe: recipe}).populate("cuisine")
+            const matchingCuisines = (!cuisines) ? [{}]
+                : recipeCuisines.filter((recipeCuisine) =>
+                    cuisines.includes(recipeCuisine.cuisine._id.toString())
+                );
+            
+            console.log(matchingCuisines)
+            
+            if (matchingCuisines.length > 0 && matchingIngres.length > 0) {
+                recipes.push(recipe);
+            }
         }
-        return res.status(200).json({ recipes });
+
+        res.status(200).send(recipes);
+        console.log("hi", recipes)
+        
     } catch (error) {
         console.log(error);
         res.status(500).send(error);

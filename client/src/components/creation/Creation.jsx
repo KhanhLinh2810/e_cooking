@@ -20,6 +20,9 @@ const Creation = () => {
     const [searchCuisines, setSearchCuisines] = useState([]);
 
     useEffect(() => {
+        if( !Cookies.get('token') ) {
+            navigate('/login')
+        }
         fetchIngres();
         fetchCuisines();
     }, []);
@@ -92,7 +95,7 @@ const Creation = () => {
         try {
             await axios.post("http://localhost:5000/api/recipe", formData, {
                 headers: {
-                    'Authorization': `bearer: ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             }).then( res => {
                 navigate('/');

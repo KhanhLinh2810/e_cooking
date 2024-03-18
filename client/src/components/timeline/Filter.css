@@ -1,0 +1,45 @@
+.filter {
+    padding-right: 5px;
+}
+.filter_field {
+    padding: 0 0 1.25rem;
+    margin: 1.25rem 0 0;
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .09);
+}
+
+.filter_checkboxs {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.filter_checkbox {
+    padding: 0.25rem 0
+}
+
+input {
+    padding-right: 0.0625rem;
+}
+
+.filter_form > button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(128, 16, 22);
+    transition: background-color scale 1s ease-in;
+
+    height: 1.875rem;
+    margin: 1.25rem 0 0;
+    text-transform: uppercase;
+    font-weight: 400;
+    width: 100%;
+    
+}
+
+.filter_form > button:hover {
+    scale: 1.05;
+    font-weight: 700;
+    opacity: 0.8;
+}

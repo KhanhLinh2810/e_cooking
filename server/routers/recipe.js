@@ -37,7 +37,7 @@ router.delete('/recipe/:id', deleteRecipe);
 //GET 
 router.get('/recipes', getRecipes);
 router.get('/recipe/:id', getRecipeById);
-router.get('/recipesBy/cuisine/ingre', getRecipesByCuisinesAndIngres)
+router.get('/recipes/cuisine/ingre', getRecipesByCuisinesAndIngres)
     
     
 module.exports = router;

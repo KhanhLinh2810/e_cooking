@@ -5,6 +5,7 @@
     justify-content: space-between;
     z-index: 1;
     border-right: 1px solid gray;
+    padding-right: 15px;
 }
 
 .sidenav_logo {
@@ -39,6 +40,15 @@
     font-size: 18px;
     font-weight: bolder;
     margin-left: 10px;
+}
+
+.sidenav_avatar {
+    width: 20px;
+    height: 20px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    color: rgb(0, 213, 255);
+    background-color: antiquewhite;
 }
 
 .sidenav_more {

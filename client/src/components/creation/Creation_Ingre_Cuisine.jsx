@@ -1,7 +1,8 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "./Creation_Ingre_Cuisine.css"
+import Cookies from 'js-cookie';
 
 const CreateIngreCuisine = () => {
     const [ingreKeyname, setIngreKeyname] = useState('');
@@ -11,6 +12,12 @@ const CreateIngreCuisine = () => {
     const [cuisinename, setCuisinename] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect( () => {
+        if( !Cookies.get('token') ) {
+            navigate('/login')
+        }
+    }, [])
     
     const handleCreateIngre = (ingreKeyname, ingreImage, ingreOthername) => {
         const formData = new FormData();

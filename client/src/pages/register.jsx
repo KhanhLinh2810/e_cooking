@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/register.css";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,12 @@ const Register = (props) => {
     const [errors, setErrors] = useState({})
 
     const navigate = useNavigate();
+
+    useEffect( () => {
+        if(Cookies.get('token')) {
+            navigate('/')
+        }
+    }, []);
 
     const handleLogin = async (username, password) => {
         try {

@@ -1,4 +1,5 @@
-const { updateUser, createUser, deleteUser, getUser } = require('../controllers/userController');
+const { updateUser, createUser, deleteUser, getUserById, getUser } = require('../controllers/userController');
+const { auth } = require('../middlewares/auth');
 
 const router = require('express').Router()
 
@@ -12,7 +13,8 @@ router.patch('/user/:id', updateUser);
 router.delete('/user/:id', deleteUser);
 
 //GET
-router.get('/user', getUser);
+router.get('/user/:id', getUserById);
+router.get('/user', auth, getUser);
 
 
 

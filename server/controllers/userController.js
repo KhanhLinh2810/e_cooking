@@ -58,23 +58,22 @@ const deleteUser = async (req, res) => {
 
 const getUserById = async (req, res) => {
     try {
-      const user = await User.findById(req.params.id);
-      if (!user) {
-        return res.status(404).send({ error: 'User not found' });
-      }
-      res.status(200).send(user);
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+        res.status(200).send(user);
     } catch (error) {
-      res.status(500).send(error);
+        res.status(500).send(error);
     }
 }
 
 const getUser = async (req, res) => {
+    //Middlewares auth finded user with token.
     try {
-        const users = await User.find()
-        res.status(200).send(users)
-
-    } catch (error) {
-        res.status(500).send(error)
+        res.status(200).send(req.user)
+    } catch (err) {
+        res.status(500).send(err);
     }
 }
 

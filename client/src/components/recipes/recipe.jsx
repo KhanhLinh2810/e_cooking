@@ -1,14 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Recipe.css"
+import axios from 'axios';
 
-const Recipe = ({username, recipeName, recipeImage, likes, timestamp}) => {
-    console.log(recipeImage)
+const Recipe = ({userId, recipeName, recipeImage, likes, timestamp}) => {
+    const [user, setUser] = useState([]);
+
+    useEffect( () => {
+        fetchUser(userId);
+    }, []);
+
+    const fetchUser = async (userId) => {
+        await axios.get(`http://localhost:5000/api/user/${userId}`)
+        .then( res => {
+            setUser(res.data)
+        }).catch( err => {
+            console.log(err)
+            alert("Failed to find User post recipe: " + recipeName);
+        })
+    }
+
     return (
         <div className="recipe">
             <div className="recipe_header">
                 <div className="recipe_headerAuthor">
-                    <div className="avatar">R</div>
-                    {username} . <span>{timestamp}</span>
+                    <div className="avatar">{user.avatar}</div>
+                    <span className='username'>{user.username}</span><span>.</span><time>{timestamp}</time>
                 </div>
                 <div className="recipe_name">
                     <h3>{recipeName}</h3>

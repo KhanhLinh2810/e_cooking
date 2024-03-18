@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/login.css"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +7,14 @@ import Cookies from "js-cookie";
 const Login = (props) => {
     const [username, setUsername] = useState('');
     const [pass, setPass] = useState('');
-
     const [errors, setErrors] = useState({});
-
     const navigate = useNavigate();
+
+    useEffect( () => {
+        if(Cookies.get('token')) {
+            navigate('/')
+        }
+    }, []);
 
     const handleLogin = async (username, password) => {
         try {

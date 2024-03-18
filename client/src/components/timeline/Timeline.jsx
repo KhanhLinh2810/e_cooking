@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import "./Timeline.css"
-import Suggesstions from './Sugesstions';
+import Filter from './Filter';
 import Recipe from "../recipes/Recipe"
 import axios from 'axios';
 
@@ -18,7 +18,6 @@ const Timeline = () => {
                 const recipes = response.data;
                 setRecipes(recipes);
                 SetSearch(recipes);
-                console.log(recipes)
             })
             .catch(error => {
                 console.error('Failed to fetch recipe data: ', error)
@@ -27,6 +26,10 @@ const Timeline = () => {
 
     const handleSearch = (e) => {
         SetSearch(recipes.filter(recipe => recipe.title.toLowerCase().includes(e.target.value)))
+    }
+
+    const handleRecipesFound = (recipesByFilter) => {
+        SetSearch(recipesByFilter);
     }
 
     return (
@@ -43,7 +46,7 @@ const Timeline = () => {
                 <div className="timeline_recipes">
                     {search.map((recipe) => (
                         <Recipe 
-                            // username={recipe.createdBy.username} 
+                            userId={recipe.createdBy} 
                             recipeName={recipe.title} 
                             recipeImage= {`http://localhost:5000/images/${recipe.image}`}
                             likes={recipe.likes} 
@@ -53,7 +56,7 @@ const Timeline = () => {
                 </div>
             </div>
             <div className="timeline_right">
-                <Suggesstions />
+                <Filter recipesByFilter= {handleRecipesFound}/>
             </div>
         </div>
     );
