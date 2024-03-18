@@ -3,23 +3,19 @@ const Recipe = require("../models/Recipe");
 const RecipeIngre = require("../models/RecipeIngre");
 
 const createIngre = async (req, res) => {
-    const { keyname, othername, description } = req.body;
-    const image = req.file.filename;
-
     try {
+        const { keyname, othername, description } = req.body;
+        const image = req.file ? req.file.filename : null;
+        console.log(image)
         if(!keyname) {
             return res.status(400).json({message: 'Keyname is required'})
         }
-        const ingre = new Ingredient({ keyname: keyname });
-        if( othername ) {
-            ingre.othername = othername
-        }
-        if( image ) {
-            ingre.image = image
-        }
-        if( description ) {
-            ingre.description = description
-        }
+        const ingre = new Ingredient({ 
+            keyname: keyname,
+            othername: othername,
+            description: description,
+            image: image 
+        });   
         await ingre.save();
         res.status(201).send(ingre);
     } catch (error) {

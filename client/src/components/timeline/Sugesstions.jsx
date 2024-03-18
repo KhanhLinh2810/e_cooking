@@ -115,7 +115,7 @@ function Suggesstions() {
                     {allCuisines.map((cuisine) => {
                         return (
                             <div key={cuisine._id}>
-                                {cuisine.keyname}
+                                {cuisine.cuisinename}
                                 <input
                                     value={cuisine._id}
                                     type="checkbox"

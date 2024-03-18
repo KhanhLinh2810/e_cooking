@@ -1,13 +1,21 @@
 .timeline {
     display: flex;
     flex-direction: row;
+    min-width: 500px;
 }
 
 .timeline_left {
     flex: 0.7;
-
 }
 
 .timeline_right {
     flex: 0.3;
+}
+
+.timeline_search {
+    margin-left: 8%;
+}
+
+.timeline_search > input {
+    width: 300px;
 }

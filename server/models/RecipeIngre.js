@@ -13,4 +13,4 @@ const RecipeIngreSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("RecipIngre", RecipeIngreSchema)
+module.exports = mongoose.model("RecipeIngre", RecipeIngreSchema)

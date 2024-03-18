@@ -1,6 +1,6 @@
 .recipe {
-    width: 550px;
-    margin: 30px 40px 50px 40px;
+    width: 500px;
+    margin: 30px 40px 50px 60px;
 }
 .recipe_headerAuthor {
     display: flex;

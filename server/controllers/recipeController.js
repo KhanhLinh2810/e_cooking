@@ -79,14 +79,30 @@ const getRecipeById = async (req,res) => {
 const getRecipesByCuisinesAndIngres = async (req, res) => {
     try {
         const { cuisines, ingres } = req.body;
-        // Query recipes matching the specified cuisineIds and ingreIds
-        const recipes = await Recipe.find({
-            $and: [
-                { cuisines: { $in: cuisines } },
-                { ingredients: { $in: ingres } }
-            ]
-        });
-
+        let recipes;
+        if (cuisines !== undefined && ingres !== undefined) {
+            recipes = await Recipe.find({
+                $and: [
+                    { cuisines: { $in: cuisines } },
+                    { ingredients: { $in: ingres } }
+                ]
+            });
+        } else if (cuisines !== undefined) {
+            recipes = await Recipe.find({
+                $and: [
+                    { cuisines: { $in: cuisines } },
+                ]
+            });
+        } else if (ingres !== undefined) {
+            console.log("hi")
+            recipes = await Recipe.find({
+                $and: [
+                    { ingredients: { $in: ingres } }
+                ]
+            });
+        } else {
+            recipes = await Recipe.find();
+        }
         return res.status(200).json({ recipes });
     } catch (error) {
         console.log(error);

@@ -16,7 +16,7 @@ const RecipeSchema = new mongoose.Schema({
         required: false
     },
     timetocook: {
-        type: Date,
+        type: String,
         required: false
     },
     // video: {

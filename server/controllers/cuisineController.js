@@ -1,11 +1,11 @@
 const Cuisine = require("../models/Cuisine");
 
 const createCuisine = async (req, res) => {
-    const cuisine = new Cuisine ({
-        cuisinename: req.body.name
+    const cuisine = new Cuisine({
+        cuisinename: req.body.cuisinename
     });
     try {
-        if(!cuisinename) {
+        if(!cuisine) {
             return res.status(400).json({message: 'The name of cuisine is required!'})
         } 
         await cuisine.save();

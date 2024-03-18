@@ -1,11 +1,14 @@
-.creation {
+.create {
     display: flex;
     justify-content: center;
 }
 
-.creation_container {
+.create_container {
     display: flex;
     flex-direction: column;
+}
+
+.createBox {    
     padding: 30px 0px 20px 50px;
     margin: 10px;
     border: 1px solid gray;
@@ -13,7 +16,7 @@
     width: 500px;
 }
 
-.recipe_field {
+.field {
     padding: 3px;
 }
 

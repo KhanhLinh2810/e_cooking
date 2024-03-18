@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import "./Creation.css"
 
 const Creation = () => {
     const navigate = useNavigate();
@@ -113,108 +114,110 @@ const Creation = () => {
 
     return (
         <div className="creation">
-            <h2>Cooking will become easy thanks to you</h2>
-            <form className="create_form" onSubmit={handleSubmit}>
-                <div className="recipe_field">
-                    <label htmlFor='title'>
-                        <b>Recipe's name: </b>
-                    </label>
-                    <input
-                        id='title'
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        type="text"
-                        placeholder="Enter recipe's name"
-                        className="recipe_title"
-                    />
-                </div>
-                <div className="recipe_field">
-                    <label htmlFor='content'>
-                        <b>Recipe's direction: </b>
-                    </label>
-                    <textarea
-                        id='content'
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="Enter direction for recipe"
-                        className="recipe_content"
-                    />
-                </div>
-                <div className="recipe_field">
-                    <label htmlFor='time'>
-                        <b>Time to cook: </b>
-                    </label>
-                    <input
-                        id='time'
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
-                        type="text"
-                        placeholder="Enter time to cook this recipe"
-                        className="recipe_time"
-                    />
-                </div>
-                <div className="recipe_field">
-                    <label htmlFor='image'>
-                        <b>Recipe's image: </b>
-                    </label>
-                    <input
-                        type='file'
-                        lable="Image"
-                        id='image'
-                        onChange={(e) => setImage(e.target.files[0])}
-                        accept='.png, .jpg, .jpge'
-                    />
-                </div>
-                <div className="recipe_field">
-                    <label>
-                        <b>Ingredients: </b>
-                    </label>
-                    <input 
-                        type='text'
-                        onChange={ handleSearchIngres } 
-                        className='from-control'
-                        placeholder='Search ingredients' 
-                    />
-                    {searchIngres.map((ingre) => {
-                        return (
-                            <div key={ingre._id}>
-                                {ingre.keyname}
-                                <input
-                                    value={ingre._id}
-                                    type="checkbox"
-                                    checked={selectIngres.includes(ingre._id)}
-                                    onChange={handleIngres}
-                                />
-                            </div>
-                        )
-                    })}
-                </div>
-                <div className="recipe_field">
-                    <label>
-                        <b>Cuisines: </b>
-                    </label>
-                    <input 
-                        type='text'
-                        onChange={ handleSearchCuisines } 
-                        className='from-control'
-                        placeholder='Search cuisines' 
-                    />
-                    {searchCuisines.map((cuisine) => {
-                        return (
-                            <div key={cuisine._id}>
-                                {cuisine.keyname}
-                                <input
-                                    value={cuisine._id}
-                                    type="checkbox"
-                                    checked={selectCuisines.includes(cuisine._id)}
-                                    onChange={handleCuisines}
-                                />
-                            </div>
-                        )
-                    })}
-                </div>
-                <button type="submit">Submit</button>
-            </form>
+            <div className="creation_container">
+                <h2>Cooking will become easy thanks to you</h2>
+                <form className="create_form" onSubmit={handleSubmit}>
+                    <div className="recipe_field">
+                        <label htmlFor='title'>
+                            <b>Recipe's name: </b>
+                        </label>
+                        <input
+                            id='title'
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            type="text"
+                            placeholder="Enter recipe's name"
+                            className="recipe_title"
+                        />
+                    </div>
+                    <div className="recipe_field">
+                        <label htmlFor='content'>
+                            <b>Recipe's direction: </b>
+                        </label>
+                        <textarea
+                            id='content'
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder="Enter direction for recipe"
+                            className="recipe_content"
+                        />
+                    </div>
+                    <div className="recipe_field">
+                        <label htmlFor='time'>
+                            <b>Time to cook: </b>
+                        </label>
+                        <input
+                            id='time'
+                            value={time}
+                            onChange={(e) => setTime(e.target.value)}
+                            type="text"
+                            placeholder="Enter time to cook this recipe"
+                            className="recipe_time"
+                        />
+                    </div>
+                    <div className="recipe_field">
+                        <label htmlFor='image'>
+                            <b>Recipe's image: </b>
+                        </label>
+                        <input
+                            type='file'
+                            lable="Image"
+                            id='image'
+                            onChange={(e) => setImage(e.target.files[0])}
+                            accept='.png, .jpg, .jpge'
+                        />
+                    </div>
+                    <div className="recipe_field">
+                        <label>
+                            <b>Ingredients: </b>
+                        </label>
+                        <input 
+                            type='text'
+                            onChange={ handleSearchIngres } 
+                            className='from-control'
+                            placeholder='Search ingredients' 
+                        />
+                        {searchIngres.map((ingre) => {
+                            return (
+                                <div key={ingre._id}>
+                                    {ingre.keyname}
+                                    <input
+                                        value={ingre._id}
+                                        type="checkbox"
+                                        checked={selectIngres.includes(ingre._id)}
+                                        onChange={handleIngres}
+                                    />
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className="recipe_field">
+                        <label>
+                            <b>Cuisines: </b>
+                        </label>
+                        <input 
+                            type='text'
+                            onChange={ handleSearchCuisines } 
+                            className='from-control'
+                            placeholder='Search cuisines' 
+                        />
+                        {searchCuisines.map((cuisine) => {
+                            return (
+                                <div key={cuisine._id}>
+                                    {cuisine.cuisinename}
+                                    <input
+                                        value={cuisine._id}
+                                        type="checkbox"
+                                        checked={selectCuisines.includes(cuisine._id)}
+                                        onChange={handleCuisines}
+                                    />
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     );
 }
