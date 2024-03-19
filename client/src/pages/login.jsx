@@ -63,10 +63,10 @@ const Login = (props) => {
                     {errors.password && <span className="text-danger">{errors.password}</span>}
                     <button className="submit">Login</button>
                 </form>
-                <p>
-                    <span className="account">Don't have an account?</span>
-                    <a href="/register" className="link" >Register</a>
-                </p>
+                <div className="link">
+                    <span>Don't have an account?</span>
+                    <a href="/register">Register</a>
+                </div>
             </div>
         </div>
     )

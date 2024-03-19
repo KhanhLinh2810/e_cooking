@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import "./Recipe.css"
 import axios from 'axios';
 
-const Recipe = ({userId, recipeName, recipeImage, likes, timestamp}) => {
+const Recipe = ({recipe, showDetail}) => {
     const [user, setUser] = useState([]);
 
     useEffect( () => {
-        fetchUser(userId);
+        fetchUser(recipe.createdBy);
     }, []);
 
     const fetchUser = async (userId) => {
@@ -15,23 +15,25 @@ const Recipe = ({userId, recipeName, recipeImage, likes, timestamp}) => {
             setUser(res.data)
         }).catch( err => {
             console.log(err)
-            alert("Failed to find User post recipe: " + recipeName);
+            alert("Failed to find User post recipe: " + recipe.title);
         })
     }
 
     return (
-        <div className="recipe">
+        <div className="recipe" onClick={() => {showDetail(recipe)}}>
             <div className="recipe_header">
                 <div className="recipe_headerAuthor">
                     <div className="avatar">{user.avatar}</div>
-                    <span className='username'>{user.username}</span><span>.</span><time>{timestamp}</time>
+                    <span className='username'>{user.username}</span><span>.</span><time>{recipe.createdAt}</time>
                 </div>
-                <div className="recipe_name">
-                    <h3>{recipeName}</h3>
-                </div>
+                <a /*href="http://localhost:3000/recipe"*/>
+                    <div className="recipe_name">
+                        <h3>{recipe.title}</h3>
+                    </div>
+                </a>
             </div>
             <div className="recipe_img">
-                <img src={recipeImage} alt="" />
+                <img src={`http://localhost:5000/images/${recipe.image}`} alt="" />
             </div>
             <div className="recipe_footer">
                 <div className="recipe_footerIcons">
@@ -53,10 +55,11 @@ const Recipe = ({userId, recipeName, recipeImage, likes, timestamp}) => {
                         </svg>
                     </div>
                 </div>
-                Liked by {likes} peoples
+                {/* Liked by {likes} peoples */}
             </div>
         </div>
     );
 }
 
 export default Recipe;
+

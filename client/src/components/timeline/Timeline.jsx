@@ -3,21 +3,24 @@ import "./Timeline.css"
 import Filter from './Filter';
 import Recipe from "../recipes/Recipe"
 import axios from 'axios';
+import DetailRecipe from './DetailRecipe';
 
 const Timeline = () => {
     const [recipes, setRecipes] = useState([]);
-    const [search, SetSearch] = useState([]);
+    const [search, setSearch] = useState([]);
+    const [detailRecipe, setDetailRecipe] = useState({});
+    const [open, setOpen] = useState(true);
 
     useEffect(() => {
         fetchRecipes();
     }, [])
-    
+
     const fetchRecipes = async() => {
         return axios.get('http://localhost:5000/api/recipes') 
             .then(response => {
                 const recipes = response.data;
                 setRecipes(recipes);
-                SetSearch(recipes);
+                setSearch(recipes);
             })
             .catch(error => {
                 console.error('Failed to fetch recipe data: ', error)
@@ -25,11 +28,16 @@ const Timeline = () => {
     }
 
     const handleSearch = (e) => {
-        SetSearch(recipes.filter(recipe => recipe.title.toLowerCase().includes(e.target.value)))
+        setSearch(recipes.filter(recipe => recipe.title.toLowerCase().includes(e.target.value)))
     }
 
     const handleRecipesFound = (recipesByFilter) => {
-        SetSearch(recipesByFilter);
+        setSearch(recipesByFilter);
+    }
+
+    const handleShowRecipe = (showDetail) => { 
+        setDetailRecipe(showDetail);
+        setOpen(!open);
     }
 
     return (
@@ -46,17 +54,17 @@ const Timeline = () => {
                 <div className="timeline_recipes">
                     {search.map((recipe) => (
                         <Recipe 
-                            userId={recipe.createdBy} 
-                            recipeName={recipe.title} 
-                            recipeImage= {`http://localhost:5000/images/${recipe.image}`}
-                            likes={recipe.likes} 
-                            timestamp={recipe.createdAt} 
+                            recipe = {recipe} 
+                            showDetail = {handleShowRecipe}
                         />
                     ))}
                 </div>
             </div>
             <div className="timeline_right">
-                <Filter recipesByFilter= {handleRecipesFound}/>
+                { open 
+                    ? <Filter recipesByFilter= {handleRecipesFound}/>
+                    : <DetailRecipe recipe = {detailRecipe} showDetail = {handleShowRecipe}/>
+                }
             </div>
         </div>
     );

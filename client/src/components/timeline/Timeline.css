@@ -5,11 +5,11 @@
 }
 
 .timeline_left {
-    flex: 0.7;
+    flex: 0.6;
 }
 
 .timeline_right {
-    flex: 0.3;
+    flex: 0.4;
     min-width: 200px;
 }
 

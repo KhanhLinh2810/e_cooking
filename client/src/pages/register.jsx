@@ -91,10 +91,10 @@ const Register = (props) => {
                     {errors.password && <span className="text-danger">{errors.password}</span>}
                     <button className="submit">Register</button>
                 </form>
-                <p>
+                <div className="link">
                     <span className="account">Already have an account?</span>
-                    <a href="/login" className="link">Login</a>
-                </p>
+                    <a href="/login">Login</a>
+                </div>
             </div>
         </div>
     )

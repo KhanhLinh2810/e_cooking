@@ -76,11 +76,12 @@ const getIngreById = async (req, res) => {
 
 const getIngreByRecipe = async (req,res) => {
     try {
-        const recipe = await Recipe.findById(req.params.id)
+        const recipe = await Recipe.findById(req.params.recipeId)
         if( !recipe ) {
             return res.status(404).send({ error: 'Recipe not found' });
         }
-        const ingres = await RecipeIngre.find({recipe: recipe}).populate("ingre")
+        const recipeIngres = await RecipeIngre.find({recipe: recipe}).populate("ingre")
+        const ingres = recipeIngres.map((item) => item.ingre)
         res.status(200).send(ingres)
     } catch (error) {
         res.status(500).send(error)
