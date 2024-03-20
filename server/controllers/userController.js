@@ -68,6 +68,18 @@ const getUserById = async (req, res) => {
     }
 }
 
+const getUserByUsername = async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username });
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
 const getUser = async (req, res) => {
     //Middlewares auth finded user with token.
     try {
@@ -82,5 +94,6 @@ module.exports = {
     updateUser,
     deleteUser,
     getUserById, 
+    getUserByUsername,
     getUser
 }

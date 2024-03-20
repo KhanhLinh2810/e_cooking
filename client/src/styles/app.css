@@ -1,13 +1,14 @@
-.homepage {
+.page {
     display: flex;
     flex-direction: row;
 }
 
-.homepage_nav {
+.page_nav {
     flex: 0.2;
     min-width: 180px;
 }
 
-.homepage_timeline {
+.page_main {
     flex: 0.8;
 }
+

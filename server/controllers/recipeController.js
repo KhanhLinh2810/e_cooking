@@ -44,14 +44,24 @@ const createRecipe = async (req,res) => {
 
 const deleteRecipe = async (req,res) => {
     try {
-        const recipe = await Recipe.findByIdAndDelete(req.params.id)
+        const recipe = await Recipe.findById(req.params.id)
+        console.log(req.user._id)
+        console.log(recipe.createdBy)
         if( !recipe ) {
-            return res.status(404).json({ message: "Recipe not found"})
+            console.log("1")
+            return res.json({ message: "Recipe not found"})
+        } 
+        else if(!recipe.createdBy.equals(req.user._id)) {
+            console.log("2")
+            return res.json({ message: "You are not the author of this recipe"})
+        } 
+        else {
+            console.log("3")
+            await Recipe.findByIdAndDelete(req.params.id)
+            //Xóa mối quan hệ giữa recipe và ingredient
+            await RecipeIngre.deleteMany({ recipe: req.params.id })
+            res.status(200).json({ message: "Recipe deleted successfully"})
         }
-        //Xóa mối quan hệ giữa recipe và ingredient
-        await RecipeIngre.deleteMany({ recipe: req.params.id })
-
-        res.status(200).json({ message: "Recipe deleted successfully"})
     } catch (error) {
         res.status(500).send(error)
     }
@@ -66,6 +76,16 @@ const getRecipes = async (req, res) => {
         res.status(200).send(recipes);
     } catch (error) {
         res.status(500).send(error)
+    }
+}
+
+const getRecipeByUser = async (req,res) => {
+    try {
+        const userId = req.params.userId;
+        const recipes = await Recipe.find({ createdBy: userId});
+        res.status(200).send(recipes)
+    } catch (err) {
+        res.status(500).send(err)
     }
 }
 
@@ -124,5 +144,6 @@ module.exports = {
     deleteRecipe,
     getRecipes,
     getRecipeById, 
+    getRecipeByUser,
     getRecipesByCuisinesAndIngres,
 }

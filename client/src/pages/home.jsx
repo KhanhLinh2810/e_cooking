@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "../styles/home.css";
+import "../styles/app.css";
 import Sidenav from "../components/navigation/Sidenav";
 import Timeline from "../components/timeline/Timeline";
 import Creation from '../components/creation/Creation';
@@ -7,21 +7,25 @@ import Creation from '../components/creation/Creation';
 
 
 const Home = () => {
-    const [timeline, setTimeline] = useState(true)
-
+    const [showCreateForm, setShowCreateForm] = useState(false);
+    
     const handleOpen = (openChose) => {
-        setTimeline(openChose)
+        if(openChose === "create") setShowCreateForm(true);
+        else setShowCreateForm(false);
     }
 
     return (
-        <div className='homepage'>
-            <div className="homepage_nav">
+        <div className='page'>
+            <div className="page_nav">
                 <Sidenav openChose = {handleOpen}/>
             </div>
-            <div className="homepage_timeline">
-                { timeline 
-                    ? <Timeline />
-                    : <Creation />
+            <div className="page_main">
+                <Timeline />
+            </div>
+            <div className="page_creation">
+                {showCreateForm 
+                    ? <Creation openChose = {handleOpen}/>
+                    : null
                 }
             </div>
         </div>

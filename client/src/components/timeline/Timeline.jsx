@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import "./Timeline.css"
 import Filter from './Filter';
-import Recipe from "../recipes/Recipe"
+import Recipe from "./recipes/Recipe"
 import axios from 'axios';
 import DetailRecipe from './DetailRecipe';
 

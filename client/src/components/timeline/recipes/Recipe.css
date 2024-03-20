@@ -5,9 +5,10 @@
     border-bottom: 0.3px solid rgba(219, 219, 219);
 }
 
-a {
-    text-decoration-line: none;
-    color: rgba(0, 0, 0, .95);
+.recipe_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .recipe_headerAuthor {
@@ -21,11 +22,13 @@ a {
 .avatar {
     width: 25px;
     height: 25px;
-    border: 1px solid gray;
     border-radius: 50%;
-    color: rgb(0, 213, 255);
-    background-color: antiquewhite;
-    margin: 2px;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: #fff;
 }
 
 .username {
@@ -35,6 +38,15 @@ a {
 .recipe_headerAuthor > span {
     font-size: 18px;
     padding: 3px
+}
+
+.recipe_more {
+    display: flex;
+    flex-direction: column;    
+}
+  
+.recipe_more button {
+    margin-left: auto;
 }
 
 .recipe_img {

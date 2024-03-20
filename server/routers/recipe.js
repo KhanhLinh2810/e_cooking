@@ -3,6 +3,7 @@ const {
     deleteRecipe,
     getRecipes,
     getRecipeById,
+    getRecipeByUser,
     getRecipesByCuisinesAndIngres,
 } = require("../controllers/recipeController")
 
@@ -32,11 +33,12 @@ router.post('/recipe', auth, upload.single('image') , createRecipe);
 // UPDATE
     
 //DELETE
-router.delete('/recipe/:id', deleteRecipe);
+router.delete('/recipe/:id', auth, deleteRecipe);
 
 //GET 
 router.get('/recipes', getRecipes);
 router.get('/recipe/:id', getRecipeById);
+router.get('/recipe/user/:userId', getRecipeByUser);
 router.get('/recipes/cuisine/ingre', getRecipesByCuisinesAndIngres)
     
     
