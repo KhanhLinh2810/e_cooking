@@ -22,8 +22,5 @@ router.get('/user/:id', getUserById);
 router.get('/user', auth, getUser);
 router.get('/profile/:username', getUserByUsername);
 
-
-
-
 module.exports = router;
 

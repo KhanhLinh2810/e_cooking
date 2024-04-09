@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
-import "./Timeline.css"
-import Filter from './Filter';
-import Recipe from "./recipes/Recipe"
+import React, {useEffect, useState} from 'react';
+import "./Timeline.css";
+import Recipe from "./recipes/Recipe";
+import Filter from "./Filter/Filter"
 import axios from 'axios';
-import DetailRecipe from './DetailRecipe';
+import DetailRecipe from './DetailRecipe/DetailRecipe';
 
 const Timeline = () => {
     const [recipes, setRecipes] = useState([]);

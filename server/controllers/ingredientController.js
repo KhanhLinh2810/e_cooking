@@ -6,7 +6,6 @@ const createIngre = async (req, res) => {
     try {
         const { keyname, othername, description } = req.body;
         const image = req.file ? req.file.filename : null;
-        console.log(image)
         if(!keyname) {
             return res.status(400).json({message: 'Keyname is required'})
         }

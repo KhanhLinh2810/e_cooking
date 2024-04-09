@@ -1,3 +1,14 @@
+.recipe_hidden {
+    width: 450px;
+    margin: 30px 40px 50px 80px;
+    padding-bottom: 20px;
+    border: 0.3px solid rgba(219, 219, 219);
+}
+
+.recipe_hidden > h4 {
+    margin-left: 20px;
+}
+
 .recipe {
     width: 450px;
     margin: 30px 40px 50px 80px;

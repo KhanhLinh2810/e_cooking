@@ -10,7 +10,6 @@ async function auth(req, res, next) {
     const token = authHeader && authHeader.split('Bearer ')[1];
     // Checking if the token exists
     if (!token) {
-        console.log('hi')
         return res.status(401).json({ message: 'No token, authorization denied' });
     }
 

@@ -3,6 +3,7 @@ const RecipeIngre = require("../models/RecipeIngre");
 const RecipeCuisine = require("../models/RecipeCuisine");
 const { default: mongoose } = require("mongoose");
 const bodyParser = require('body-parser');
+const { performance } = require('perf_hooks');
 
 const createRecipe = async (req,res) => {
     const { title, content, timetocook, ingres, cuisines } = req.body;
@@ -42,21 +43,38 @@ const createRecipe = async (req,res) => {
     }
 }
 
-const deleteRecipe = async (req,res) => {
+const updateRecipe = async (req, res) => {
     try {
-        const recipe = await Recipe.findById(req.params.id)
-        console.log(req.user._id)
-        console.log(recipe.createdBy)
+        const { recipe } = res.body
+        console.log(recipe)
         if( !recipe ) {
-            console.log("1")
             return res.json({ message: "Recipe not found"})
         } 
         else if(!recipe.createdBy.equals(req.user._id)) {
-            console.log("2")
             return res.json({ message: "You are not the author of this recipe"})
         } 
         else {
-            console.log("3")
+            await Recipe.findByIdAndDelete(req.params.id)
+            //Xóa mối quan hệ giữa recipe và ingredient
+            await RecipeIngre.deleteMany({ recipe: req.params.id })
+            res.status(200).json({ message: "Recipe deleted successfully"})
+        }
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
+
+const deleteRecipe = async (req,res) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id)
+        if( !recipe ) {
+            return res.json({ message: "Recipe not found"})
+        } 
+        else if(!recipe.createdBy.equals(req.user._id)) {
+            return res.json({ message: "You are not the author of this recipe"})
+        } 
+        else {
             await Recipe.findByIdAndDelete(req.params.id)
             //Xóa mối quan hệ giữa recipe và ingredient
             await RecipeIngre.deleteMany({ recipe: req.params.id })
@@ -104,35 +122,19 @@ const getRecipeById = async (req,res) => {
 const getRecipesByCuisinesAndIngres = async (req, res) => {
     try {
         const { cuisines, ingres } = req.query;
-        const allRecipes = await Recipe.find();
+        const allRecipesFound = [];
 
-        const recipes = [];
-
-        for( const recipe of allRecipes) {
-            const recipeIngres = await RecipeIngre.find({recipe: recipe}).populate("ingre")
-            const matchingIngres = (!ingres) ? [{}]
-                : recipeIngres.filter((recipeIngre) =>
-                    ingres.includes(recipeIngre.ingre._id.toString())
-                );
-                console.log(matchingIngres)
-            
-            
-            const recipeCuisines = await RecipeCuisine.find({recipe: recipe}).populate("cuisine")
-            const matchingCuisines = (!cuisines) ? [{}]
-                : recipeCuisines.filter((recipeCuisine) =>
-                    cuisines.includes(recipeCuisine.cuisine._id.toString())
-                );
-            
-            console.log(matchingCuisines)
-            
-            if (matchingCuisines.length > 0 && matchingIngres.length > 0) {
-                recipes.push(recipe);
-            }
+        for (const ingreId of ingres) {
+            const recipeIngres = await RecipeIngre.find({ ingre: ingreId }).populate("recipe");
+            allRecipesFound.push(...recipeIngres.map(recipeIngre => recipeIngre.recipe));
         }
 
-        res.status(200).send(recipes);
-        console.log("hi", recipes)
-        
+        for (const cuisineId of cuisines) {
+            const recipeCuisines = await RecipeCuisine.find({ cuisine: cuisineId }).populate("recipe");
+            allRecipesFound.push(...recipeCuisines.map(recipeCuisine => recipeCuisine.recipe));
+        }
+
+        res.status(200).send(allRecipesFound);        
     } catch (error) {
         console.log(error);
         res.status(500).send(error);
@@ -141,6 +143,7 @@ const getRecipesByCuisinesAndIngres = async (req, res) => {
 
 module.exports = {
     createRecipe,
+    updateRecipe,
     deleteRecipe,
     getRecipes,
     getRecipeById, 

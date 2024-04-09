@@ -1,5 +1,6 @@
 const {
     createRecipe,
+    updateRecipe,
     deleteRecipe,
     getRecipes,
     getRecipeById,
@@ -31,6 +32,7 @@ const upload = multer({
 router.post('/recipe', auth, upload.single('image') , createRecipe);
      
 // UPDATE
+router.put('/recipe/:id', auth, updateRecipe);
     
 //DELETE
 router.delete('/recipe/:id', auth, deleteRecipe);

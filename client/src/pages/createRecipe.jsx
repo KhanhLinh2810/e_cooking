@@ -1,18 +1,18 @@
 import React from 'react'
 import Sidenav from '../components/navigation/Sidenav';
-import CreateIngreCuisine from '../components/creation/creation_ingre_cuisine/Creation_Ingre_Cuisine';
+import CreateRecipe from '../components/creation/creation_recipe/Creation_Recipe';
 
-const CreateIngreCuisinePage = () => {
+const CreateRecipePage = () => {
     return (
         <div className="createpage">
             <div className="createpage_nav">
                 <Sidenav />
             </div>
             <div className="createpage_create">
-                <CreateIngreCuisine />
+                <CreateRecipe />
             </div>
         </div>
     );
 }
 
-export default CreateIngreCuisinePage;
+export default CreateRecipePage;

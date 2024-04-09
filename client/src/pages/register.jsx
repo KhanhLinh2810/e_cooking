@@ -31,7 +31,7 @@ const Register = (props) => {
                 const token = res.data.token;
                 Cookies.set('token', token, { expires: 7 }); // Expires in 7 days
                 //Routing to the profile page
-                navigate('/profile');
+                navigate('/');
             }).catch(err => {
                 navigate('/login');
             });

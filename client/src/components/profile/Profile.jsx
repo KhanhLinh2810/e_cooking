@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react'
 import "./Profile.css"
 import axios from 'axios';
 import Recipe from './recipes/Recipe';
+import { useParams } from 'react-router-dom';
 import HeaderProfile from './header/header';
 
-function Profile({ username }) {
+function Profile() {
+    const {username} = useParams();
     const [user, setUser] = useState({});
     const [recipes, setRecipes] = useState([]);
     

@@ -18,7 +18,6 @@ const createUser = async (req, res) => {
             return res.status(400).json({message: 'All fields are required!'})
         };
         await user.save();
-        console.log(user);
         res.status(201).send(user);
     } catch (error) {
         console.log('createUser have error: ', error);
